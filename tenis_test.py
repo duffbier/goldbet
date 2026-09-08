@@ -1,14 +1,24 @@
 import requests
 
-BASE = "https://www.goldbet.it/api/v1/sports"
-HEADERS = {"User-Agent": "Mozilla/5.0"}
-
 def get_tennis_competitions():
-    url = f"{BASE}/2/competitions"  # sportId = 2 (tenis)
-    resp = requests.get(url, headers=HEADERS)
+    url = "https://www.goldbet.it/api/v1/sportsbook/sports/tennis/competitions"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json",
+        "Referer": "https://www.goldbet.it/",
+        "Origin": "https://www.goldbet.it"
+    }
+
+    resp = requests.get(url, headers=headers)
     print("Status code:", resp.status_code)
-    data = resp.json()
-    for c in data.get("competitions", [])[:10]:
-        print(c["description"])
+
+    try:
+        data = resp.json()
+        print(data)
+    except Exception as e:
+        print("Response text:", resp.text)
+        print("Error:", e)
 
 get_tennis_competitions()
+
